@@ -1,3 +1,17 @@
+# teal.code 0.5.0
+
+### Breaking Change
+
+* `qenv` objects should now be created with `qenv()` rather than `new_qenv()`. The new constructor always creates an empty object. `new_qenv` is now deprecated.
+
+### Miscellaneous
+
+* Exported the `qenv` class from the package.
+* The `@code` field in the `qenv` class now holds `character`, not `expression`.
+* The `get_code` method  returns a single concatenated string of the code.
+* Added `within` support for `qenv.error` class.
+* Added `get_env` method that allows to extract environment stored in `qenv@env` slot.
+
 # teal.code 0.4.1
 
 ### Miscellaneous
@@ -5,6 +19,7 @@
 * Updated usage and installation instructions in `README`.
 * Updated phrasing of the `qenv` vignette.
 * Specified minimal version of package dependencies.
+* Added `within` method for `qenv` for convenient passing of inline code to `eval_code`.
 
 # teal.code 0.4.0
 

@@ -1,55 +1,15 @@
-#' Removes leading and trailing curly brackets from character
-#' string and removes indentation of remaining contents
-#'
-#' @description `r lifecycle::badge("stable")`
-#' @param x (`character`)\cr
-#'
-#' @return character string without curly braces
-#' @keywords internal
-remove_enclosing_curly_braces <- function(x) {
-  checkmate::assert_character(x)
-  if (length(x) == 0) {
-    return(x)
-  }
-
-  open_bracket_and_spaces <- "^[[:blank:]]*\\{[[:blank:]]*$"
-  close_bracket_and_spaces <- "^[[:blank:]]*\\}[[:blank:]]*$"
-  blank_line <- "^[[:blank:]]*$"
-  four_spaces_at_start_of_line <- "^[[:blank:]]{4}"
-
-  split_text <- unlist(strsplit(x, "\n", fixed = TRUE))
-
-  # if text begins with "{   \n" and ends with "\n}   "
-  if (grepl(open_bracket_and_spaces, utils::head(split_text, 1)) &&
-    grepl(close_bracket_and_spaces, utils::tail(split_text, 1))) {
-    # remove the first and last line
-    split_text <- split_text[-c(1, length(split_text))]
-
-    # if any line is not blank then indent
-    if (!all(grepl(blank_line, split_text))) {
-      return(gsub(four_spaces_at_start_of_line, "", split_text))
-    } else {
-      return(split_text)
-    }
-  } else {
-    return(split_text)
-  }
-}
-
 #' Suppresses plot display in the IDE by opening a PDF graphics device
 #'
-#' This function opens a PDF graphics device using \code{\link[grDevices]{pdf}} to suppress
+#' This function opens a PDF graphics device using [`grDevices::pdf`] to suppress
 #' the plot display in the IDE. The purpose of this function is to avoid opening graphic devices
 #' directly in the IDE.
 #'
 #' @param x lazy binding which generates the plot(s)
 #'
-#' @details The function uses \code{\link[base]{on.exit}} to ensure that the PDF graphics
-#'          device is closed (using \code{\link[grDevices]{dev.off}}) when the function exits,
+#' @details The function uses [`base::on.exit`] to ensure that the PDF graphics
+#'          device is closed (using [`grDevices::dev.off`]) when the function exits,
 #'          regardless of whether it exits normally or due to an error. This is necessary to
 #'          clean up the graphics device properly and avoid any potential issues.
-#'
-#' @import grDevices
 #'
 #' @return No return value, called for side effects.
 #'
@@ -62,7 +22,34 @@ dev_suppress <- function(x) {
   force(x)
 }
 
-# converts vector of expressions to character
-format_expression <- function(code) {
-  as.character(styler::style_text(unlist(lapply(as.character(code), remove_enclosing_curly_braces))))
+#' Separate calls
+#'
+#' Converts language object or lists of language objects to list of simple calls.
+#'
+#' @param x `language` object or a list of thereof
+#' @return
+#' Given a `call`, an `expression`, a list of `call`s or a list of `expression`s, returns a list of `calls`.
+#' Symbols and atomic vectors (which may get mixed up in a list) are returned wrapped in list.
+#' @examples
+#' # use non-exported function from teal.code
+#' lang2calls <- getFromNamespace("lang2calls", "teal.code")
+#' expr <- expression(
+#'   i <- iris,
+#'   m <- mtcars
+#' )
+#' lang2calls(expr)
+#' @keywords internal
+lang2calls <- function(x) {
+  if (is.atomic(x) || is.symbol(x)) {
+    return(list(x))
+  }
+  if (is.call(x)) {
+    if (identical(as.list(x)[[1L]], as.symbol("{"))) {
+      as.list(x)[-1L]
+    } else {
+      list(x)
+    }
+  } else {
+    unlist(lapply(x, lang2calls), recursive = FALSE)
+  }
 }

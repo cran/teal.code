@@ -337,7 +337,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore"><code>qenv</code></h1>
+<h1 class="title toc-ignore">qenv</h1>
 <h4 class="author">NEST coreDev</h4>
 
 
@@ -348,44 +348,57 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 environment and can be used to create reproducible outputs.</p>
 <div id="initialization" class="section level3">
 <h3>Initialization</h3>
-<p>The <code>new_qenv()</code> function serves as the gateway to create
-an initial <code>qenv</code> object:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(teal.code)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># can be created without any code/environment</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>empty_qenv <span class="ot">&lt;-</span> <span class="fu">new_qenv</span>()</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">print</span>(empty_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x000002494c131810&gt; [L]
+<p>The <code>qenv()</code> function serves as the gateway to create an
+initial <code>qenv</code> object:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(teal.code)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new qenv object</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>empty_qenv <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(empty_qenv)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa67d3ae9b0&gt; [L]
 ## Parent: &lt;environment: package:teal.code&gt;</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># or can be created with objects inside the environment</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>my_qenv <span class="ot">&lt;-</span> <span class="fu">new_qenv</span>(<span class="at">env =</span> <span class="fu">list2env</span>(<span class="fu">list</span>(<span class="at">x =</span> <span class="dv">5</span>)), <span class="at">code =</span> <span class="st">&quot;x &lt;- 5&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x00000249495ceae0&gt; [L]
-## Parent: &lt;environment: package:teal.code&gt;
-## Bindings:
-## • x: &lt;dbl&gt; [L]</code></pre>
-<p>For enhanced reproducibility, it’s crucial to provide the code used
-to generate objects when creating a <code>qenv</code> with objects
-inside the environment. This responsibility falls upon the user.</p>
 </div>
 <div id="qenv-basic-usage" class="section level3">
 <h3><code>qenv</code> basic usage</h3>
 <p>The <code>eval_code()</code> function executes code within a
 <code>qenv</code> environment, yielding a new <code>qenv</code> object
 as the output.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(my_qenv, <span class="st">&quot;y &lt;- x * 2&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">eval_code</span>(<span class="st">&quot;z &lt;- y * 2&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># my_qenv still contains only x</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x00000249495ceae0&gt; [L]
-## Parent: &lt;environment: package:teal.code&gt;
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate code in qenv</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>my_qenv <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(empty_qenv, <span class="st">&quot;x &lt;- 2&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa67d4e8d98&gt; [L]
+## Parent: &lt;environment: package:magrittr&gt;
 ## Bindings:
 ## • x: &lt;dbl&gt; [L]</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># q2 contains x, y and z</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">print</span>(q2)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x000002494b1e1718&gt; [L]
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_env</span>(my_qenv)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa67d4e8d98&gt;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(my_qenv, <span class="st">&quot;y &lt;- x * 2&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">eval_code</span>(<span class="st">&quot;z &lt;- y * 2&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># my_qenv still contains only x</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa67d4e8d98&gt; [L]
+## Parent: &lt;environment: package:magrittr&gt;
+## Bindings:
+## • x: &lt;dbl&gt; [L]</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="fu">get_env</span>(my_qenv))</span></code></pre></div>
+<pre><code>## [1] &quot;x&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># q1 contains x, y and z</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(q1)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa685c59a20&gt; [L]
+## Parent: &lt;environment: package:magrittr&gt;
+## Bindings:
+## • x: &lt;dbl&gt; [L]
+## • y: &lt;dbl&gt; [L]
+## • z: &lt;dbl&gt; [L]</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="fu">get_env</span>(q1))</span></code></pre></div>
+<pre><code>## [1] &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<p>The same result can be achieved with the <code>within</code> method
+for the <code>qenv</code> class.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">within</span>(my_qenv, y <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">within</span>(z <span class="ot">&lt;-</span> y <span class="sc">*</span> <span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(q2)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa6865de940&gt; [L]
 ## Parent: &lt;environment: package:magrittr&gt;
 ## Bindings:
 ## • x: &lt;dbl&gt; [L]
@@ -395,35 +408,82 @@ as the output.</p>
 this is particularly useful for displaying them in a <code>shiny</code>
 app. You can retrieve the code used to generate the <code>qenv</code>
 using the <code>get_code()</code> function.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">print</span>(q2[[<span class="st">&quot;y&quot;</span>]])</span></code></pre></div>
-<pre><code>## [1] 10</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">get_code</span>(q2), <span class="at">collapse =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>))</span></code></pre></div>
-<pre><code>## x &lt;- 5
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(q2[[<span class="st">&quot;y&quot;</span>]])</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q2))</span></code></pre></div>
+<pre><code>## x &lt;- 2
 ## y &lt;- x * 2
 ## z &lt;- y * 2</code></pre>
+</div>
+<div id="substitutions" class="section level3">
+<h3>Substitutions</h3>
+<p>In some cases, one may want to substitute some elements of the code
+before evaluation. Consider a case when a subset of <code>iris</code> is
+defined by an input value.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(q, <span class="fu">quote</span>(i <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> <span class="st">&quot;setosa&quot;</span>)))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(q, <span class="fu">substitute</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  ii <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> species),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">env =</span> <span class="fu">list</span>(<span class="at">species =</span> <span class="st">&quot;versicolor&quot;</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>input_value <span class="ot">&lt;-</span> <span class="st">&quot;virginica&quot;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(q, <span class="fu">substitute</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  iii <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> species),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">env =</span> <span class="fu">list</span>(<span class="at">species =</span> input_value)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(q[[<span class="st">&quot;i&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##         50          0          0</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(q[[<span class="st">&quot;ii&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##          0         50          0</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(q[[<span class="st">&quot;iii&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##          0          0         50</code></pre>
+<p>A more convenient way to pass code with substitution is to use the
+<code>within</code> method.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">within</span>(qq, i <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> <span class="st">&quot;setosa&quot;</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">within</span>(qq, ii <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> species), <span class="at">species =</span> <span class="st">&quot;versicolor&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>input_value <span class="ot">&lt;-</span> <span class="st">&quot;virginica&quot;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>qq <span class="ot">&lt;-</span> <span class="fu">within</span>(qq, iii <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Species <span class="sc">==</span> species), <span class="at">species =</span> input_value)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qq[[<span class="st">&quot;i&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##         50          0          0</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qq[[<span class="st">&quot;ii&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##          0         50          0</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qq[[<span class="st">&quot;iii&quot;</span>]]<span class="sc">$</span>Species)</span></code></pre></div>
+<pre><code>##     setosa versicolor  virginica 
+##          0          0         50</code></pre>
+<p>See <code>?qenv</code> for more details.</p>
 </div>
 <div id="combining-qenv-objects" class="section level3">
 <h3>Combining <code>qenv</code> objects</h3>
 <p>Given a pair of <code>qenv</code> objects, you may be able to “join”
 them, creating a new <code>qenv</code> object encompassing the union of
 both environments, along with the requisite code for reproduction:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>common_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">new_qenv</span>(), <span class="fu">quote</span>(x <span class="ot">&lt;-</span> <span class="dv">1</span>))</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>x_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(common_q, <span class="fu">quote</span>(y <span class="ot">&lt;-</span> <span class="dv">5</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>y_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(common_q, <span class="fu">quote</span>(z <span class="ot">&lt;-</span> <span class="dv">5</span>))</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>join_q <span class="ot">&lt;-</span> <span class="fu">join</span>(x_q, y_q)</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">print</span>(join_q)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x000002494a5555c0&gt;
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>common_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">qenv</span>(), <span class="fu">quote</span>(x <span class="ot">&lt;-</span> <span class="dv">1</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>x_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(common_q, <span class="fu">quote</span>(y <span class="ot">&lt;-</span> <span class="dv">5</span>))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>y_q <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(common_q, <span class="fu">quote</span>(z <span class="ot">&lt;-</span> <span class="dv">5</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>join_q <span class="ot">&lt;-</span> <span class="fu">join</span>(x_q, y_q)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(join_q)</span></code></pre></div>
+<pre><code>## &lt;environment: 0x7fa682b521f0&gt;
 ## Parent: &lt;environment: package:magrittr&gt;
 ## Bindings:
 ## • x: &lt;dbl&gt;
 ## • y: &lt;dbl&gt;
 ## • z: &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="fu">get_env</span>(join_q))</span></code></pre></div>
+<pre><code>## [1] &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
 <p>The feasibility of joining <code>qenv</code> objects hinges on the
 contents of the environments and the code’s order. Refer to the function
-documentation for further details..</p>
+documentation for further details.</p>
 </div>
 <div id="warnings-and-messages-in-qenv-objects" class="section level3">
 <h3>Warnings and messages in <code>qenv</code> objects</h3>
@@ -431,18 +491,18 @@ documentation for further details..</p>
 within a <code>qenv</code> environment, these are captured and stored
 within the <code>qenv</code> object. Access these messages and warnings
 using the <code>@</code> operator.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>q_message <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">new_qenv</span>(), <span class="fu">quote</span>(<span class="fu">message</span>(<span class="st">&quot;this is a message&quot;</span>)))</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>q_message<span class="sc">@</span>messages</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>q_message <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">qenv</span>(), <span class="fu">quote</span>(<span class="fu">message</span>(<span class="st">&quot;this is a message&quot;</span>)))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>q_message<span class="sc">@</span>messages</span></code></pre></div>
 <pre><code>## [1] &quot;&gt; this is a message\n&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>q_warning <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">new_qenv</span>(), <span class="fu">quote</span>(<span class="fu">warning</span>(<span class="st">&quot;and this is a warning&quot;</span>)))</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>q_warning<span class="sc">@</span>warnings</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>q_warning <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(<span class="fu">qenv</span>(), <span class="fu">quote</span>(<span class="fu">warning</span>(<span class="st">&quot;and this is a warning&quot;</span>)))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>q_warning<span class="sc">@</span>warnings</span></code></pre></div>
 <pre><code>## [1] &quot;&gt; and this is a warning\n&quot;</code></pre>
 <p>If a particular line of code doesn’t trigger any warnings or
 messages, the corresponding message/warning value will be an empty
 string.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>q_message<span class="sc">@</span>warnings</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>q_message<span class="sc">@</span>warnings</span></code></pre></div>
 <pre><code>## [1] &quot;&quot;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>q_warning<span class="sc">@</span>messages</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>q_warning<span class="sc">@</span>messages</span></code></pre></div>
 <pre><code>## [1] &quot;&quot;</code></pre>
 <p>Additionally, a helper function, <code>get_warnings()</code>, is
 available to generate a formatted string comprising the warnings and the
@@ -463,40 +523,39 @@ object can be utilized wherever a <code>qenv</code> object is used,
 alleviating the need for code alterations to handle these errors. Select
 the <code>error_option</code> in the example below to witness
 <code>qenv</code> error handling in action.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">library</span>(shiny)</span></code></pre></div>
-<pre><code>## Warning: package &#39;shiny&#39; was built under R version 4.3.1</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co"># create an initial qenv with the data in</span></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>data_q <span class="ot">&lt;-</span> <span class="fu">new_qenv</span>() <span class="sc">%&gt;%</span> <span class="fu">eval_code</span>(<span class="st">&quot;iris_data &lt;- iris&quot;</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="fu">radioButtons</span>(</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>    <span class="st">&quot;option&quot;</span>, <span class="st">&quot;Choose a column to plot:&quot;</span>,</span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>, <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>, <span class="st">&quot;error_option&quot;</span>)</span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  ),</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;rcode&quot;</span>),</span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">&quot;plot&quot;</span>)</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>)</span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>  <span class="co"># create a qenv containing the reproducible output</span></span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>  output_q <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>option)</span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>    <span class="fu">eval_code</span>(</span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>      data_q,</span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>      <span class="fu">bquote</span>(p <span class="ot">&lt;-</span> <span class="fu">hist</span>(iris_data[, .(input<span class="sc">$</span>option)]))</span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a>    )</span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a>  })</span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>  <span class="co"># display output</span></span>
-<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">output_q</span>()[[<span class="st">&quot;p&quot;</span>]])</span>
-<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a>  <span class="co"># display code</span></span>
-<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a>  output<span class="sc">$</span>rcode <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">get_code</span>(<span class="fu">output_q</span>()))</span>
-<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a>}</span>
-<span id="cb25-29"><a href="#cb25-29" tabindex="-1"></a></span>
-<span id="cb25-30"><a href="#cb25-30" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb25-31"><a href="#cb25-31" tabindex="-1"></a>  <span class="fu">shinyApp</span>(ui, server)</span>
-<span id="cb25-32"><a href="#cb25-32" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create an initial qenv with the data in</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>data_q <span class="ot">&lt;-</span> <span class="fu">qenv</span>() <span class="sc">%&gt;%</span> <span class="fu">eval_code</span>(<span class="st">&quot;iris_data &lt;- iris&quot;</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">radioButtons</span>(</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;option&quot;</span>, <span class="st">&quot;Choose a column to plot:&quot;</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>, <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>, <span class="st">&quot;error_option&quot;</span>)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;rcode&quot;</span>),</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">&quot;plot&quot;</span>)</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a qenv containing the reproducible output</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>  output_q <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>option)</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">eval_code</span>(</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>      data_q,</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">bquote</span>(p <span class="ot">&lt;-</span> <span class="fu">hist</span>(iris_data[, .(input<span class="sc">$</span>option)]))</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># display output</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">output_q</span>()[[<span class="st">&quot;p&quot;</span>]])</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># display code</span></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>rcode <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">get_code</span>(<span class="fu">output_q</span>()))</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="qenv-and-teal-applications" class="section level2">
 <h2><code>qenv</code> and <code>teal</code> applications</h2>

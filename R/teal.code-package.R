@@ -1,4 +1,4 @@
-#' teal.code: Code storage and execution class for teal applications
+#' `teal.code`: Code storage and execution class for teal applications
 #'
 #' The `teal.code` package contains functionalities that can be used
 #' to store and execute R calls. `qenv` class allows to create a `teal`
@@ -7,7 +7,5 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' @import shiny
 #' @importFrom lifecycle badge
-#' @importFrom styler style_text
 NULL
