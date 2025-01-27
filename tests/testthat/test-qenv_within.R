@@ -14,6 +14,16 @@ testthat::test_that("simple and compound expressions are evaluated", {
   )
 })
 
+testthat::test_that("multiline expressions are evaluated", {
+  q <- qenv()
+  testthat::expect_no_error(
+    within(q, a <- function(x) {
+      y <- x + 1
+      y + 3
+    })
+  )
+})
+
 # code identity ----
 testthat::test_that("styling of input code does not impact evaluation results", {
   q <- qenv()
@@ -48,18 +58,25 @@ testthat::test_that("styling of input code does not impact evaluation results", 
   all_code <- get_code(q)
   testthat::expect_identical(
     all_code,
-    paste(rep("1 + 1\n2 + 2", 4L), collapse = "\n")
+    paste(rep(c("1 + 1", "2 + 2"), 4L), collapse = "\n")
   )
 })
 
 
 # return value ----
-testthat::test_that("within.qenv renturns a `qenv` where `@env` is a deep copy of that in `data`", {
+testthat::test_that("within.qenv empty call doesn't change qenv object", {
   q <- qenv()
   q <- within(qenv(), i <- iris)
   qq <- within(q, {})
-  testthat::expect_equal(q@env, qq@env)
-  testthat::expect_false(identical(q@env, qq@env))
+  testthat::expect_identical(q, qq)
+})
+
+testthat::test_that("within.qenv renturns a `qenv` where `@.xData` is a deep copy of that in `data`", {
+  q <- qenv()
+  q <- within(qenv(), i <- iris)
+  qq <- within(q, i)
+  testthat::expect_equal(q@.xData, qq@.xData)
+  testthat::expect_false(identical(q@.xData, qq@.xData))
 })
 
 testthat::test_that("within.qenv renturns qenv.error even if evaluation raises error", {

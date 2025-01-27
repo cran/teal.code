@@ -39,17 +39,11 @@ The features include:
 ```r
 # stable versions
 install.packages('teal.code')
-
-# install.packages("pak")
-pak::pak("insightsengineering/teal.code@*release")
 ```
 
-Alternatively, you might want to use the development version available on [r-universe](https://r-universe.dev/).
+Alternatively, you might want to use the development version.
 
 ```r
-# beta versions
-install.packages('teal.code', repos = c('https://pharmaverse.r-universe.dev', getOption('repos')))
-
 # install.packages("pak")
 pak::pak("insightsengineering/teal.code")
 ```
@@ -62,20 +56,21 @@ Below is the showcase of the example usage
 
 ```r
 library(teal.code)
-my_qenv <- qenv() |> eval_code("x <- 5")
+my_qenv <- eval_code(qenv(), "x <- 5")
 my_qenv
 #> <environment: 0x00000225cc85c7a0> [L]
 #> Parent: <environment: package:teal.code>
 #> Bindings:
 #> • x: <dbl> [L]
-get_env(my_qenv)
+as.environment(my_qenv)
 #> <environment: 0x00000225cc85c7a0>
-ls(get_env(my_qenv))
+names(my_qenv)
 #> [1] "x"
 ```
 
 ```r
-qenv_2 <- eval_code(my_qenv, "y <- x * 2") |> eval_code("z <- y * 2")
+qenv_2 <- eval_code(my_qenv, "y <- x * 2") 
+qenv_2 <- eval_code(qenv_2, "z <- y * 2")
 qenv_2
 #> <environment: 0x00000225ca866d68> [L]
 #> Parent: <environment: package:teal.code>
@@ -83,9 +78,9 @@ qenv_2
 #> • x: <dbl> [L]
 #> • y: <dbl> [L]
 #> • z: <dbl> [L]
-get_env(qenv_2)
+environment(qenv_2)
 #> <environment: 0x00000225ca866d68>
-ls(get_env(qenv_2))
+names(qenv_2)
 #> [1] "x" "y" "z"
 ```
 

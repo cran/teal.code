@@ -6,26 +6,24 @@ empty_qenv <- qenv()
 print(empty_qenv)
 
 ## -----------------------------------------------------------------------------
-library(magrittr)
-
 # evaluate code in qenv
 my_qenv <- eval_code(empty_qenv, "x <- 2")
 print(my_qenv)
-get_env(my_qenv)
 
-
-q1 <- eval_code(my_qenv, "y <- x * 2") %>% eval_code("z <- y * 2")
+q1 <- eval_code(my_qenv, "y <- x * 2")
+q1 <- eval_code(q1, "z <- y * 2")
 
 # my_qenv still contains only x
 print(my_qenv)
-ls(get_env(my_qenv))
+names(my_qenv)
 
 # q1 contains x, y and z
 print(q1)
-ls(get_env(q1))
+names(q1)
 
 ## -----------------------------------------------------------------------------
-q2 <- within(my_qenv, y <- x * 2) %>% within(z <- y * 2)
+q2 <- within(my_qenv, y <- x * 2)
+q2 <- within(q2, z <- y * 2)
 print(q2)
 
 ## -----------------------------------------------------------------------------
@@ -67,27 +65,23 @@ common_q <- eval_code(qenv(), quote(x <- 1))
 x_q <- eval_code(common_q, quote(y <- 5))
 y_q <- eval_code(common_q, quote(z <- 5))
 
-join_q <- join(x_q, y_q)
+join_q <- c(x_q, y_q)
 
 print(join_q)
-ls(get_env(join_q))
+names(join_q)
 
 ## -----------------------------------------------------------------------------
 q_message <- eval_code(qenv(), quote(message("this is a message")))
-q_message@messages
+get_messages(q_message)
 
 q_warning <- eval_code(qenv(), quote(warning("and this is a warning")))
-q_warning@warnings
+get_warnings(q_warning)
 
-## -----------------------------------------------------------------------------
-q_message@warnings
-q_warning@messages
-
-## -----------------------------------------------------------------------------
+## ----eval=requireNamespace("shiny")-------------------------------------------
 library(shiny)
-library(magrittr)
 # create an initial qenv with the data in
-data_q <- qenv() %>% eval_code("iris_data <- iris")
+data_q <- qenv()
+data_q <- eval_code(data_q, "iris_data <- iris")
 
 ui <- fluidPage(
   radioButtons(

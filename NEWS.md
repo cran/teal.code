@@ -1,3 +1,21 @@
+# teal.code 0.6.0
+
+### Enhancements
+
+* Introduced `[.qenv` function to subset `qenv` object (code and environment) to specified object names.
+* `get_code()` was extended with `names` parameter and allows the code extraction to be limited to objects stored in
+`qenv` but limited to `names`.
+* Introduced `get_messages()` to get messages produced during code evaluation.
+* `get_code()` returns original code formatting (white spaces and comments) passed to `eval_code()`.
+* `qenv` inherits from the `environment` class, allowing to use `ls()`, `names()`, `as.environment()` and other functions on `qenv` objects.
+
+### Miscellaneous
+
+* `join()` method is deprecated, please use `c()` instead
+* `get_var()` method is deprecated, please use `get`, `[[` or `$` instead.
+* Remove deprecated function `new_qenv`.
+* Numerous bug fixes
+
 # teal.code 0.5.0
 
 ### Breaking Change
