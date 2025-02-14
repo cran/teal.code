@@ -1,6 +1,6 @@
-79a53984d1b2c048fc547b897f079ed3 *DESCRIPTION
+82f62f4cfacf4a733029c9956359f22e *DESCRIPTION
 1ad9d2a6c4f84280f512685863efa248 *NAMESPACE
-d2398017dd7cf583084b39d33edd12c5 *NEWS.md
+46b1a98047d8a51b725643dda6da6bf7 *NEWS.md
 10bde3f3dccc118bc4fc31049ce337b8 *R/qenv-c.R
 6425024be6332cd6c7e8d6ab43976edb *R/qenv-class.R
 34b4be270d4caab13c83b786ad61c61a *R/qenv-concat.R
@@ -18,14 +18,14 @@ fb2d905457828a470e6e31a2f86959c5 *R/qenv-length.R
 adf8660a03d599e93a48e1e6da2f019b *R/qenv-show.R
 4e9d952a1b17e55dbc6e281d0fbf6d22 *R/qenv-within.R
 ebb4eebc489f10f110b863f65145aaed *R/teal.code-package.R
-11d0ced602292b89b728bd226bb452fe *R/utils-get_code_dependency.R
+b75a1420bb2c841a0fb77e935fc25f4a *R/utils-get_code_dependency.R
 adac7a9db21c6f5295193e74d9814b68 *R/utils.R
 6c4cb60059527a2d0b6d1ced95d66c85 *README.md
 578c5359c063af16362d34ab5dab89d0 *build/vignette.rds
 922be5d736a09d48421e5ed89050d316 *inst/WORDLIST
 7fd265c272762f95ab164900c6134275 *inst/doc/qenv.R
 a6617b7735ec4c82f711120cc8309fe0 *inst/doc/qenv.Rmd
-4d8c1fa51f70c0aeeedb1ba7a9b47838 *inst/doc/qenv.html
+c93c180e150f6c70860cc9793df2e62b *inst/doc/qenv.html
 33ed10d615ed69a92d03517a4654d8cb *inst/doc/teal-code.Rmd
 344dbba53cf84057a47096cfabd238a2 *inst/doc/teal-code.html
 ac5478d8801efb1af0e3e4ff820ea4c3 *inst/pkgdown/_pkgdown.yml
@@ -64,7 +64,7 @@ f3cbdfc620f7aefca6e661a48f379472 *tests/testthat/test-qenv-class.R
 778b46d9d0b7dbc67d8f54f701211d45 *tests/testthat/test-qenv_constructor.R
 cba97df67957361f8147a64ad0c3bd83 *tests/testthat/test-qenv_eval_code.R
 79c60957212af4286b4bfcb1aaa0d4ac *tests/testthat/test-qenv_extract.R
-1503521f84be91d12244a18a27cc68db *tests/testthat/test-qenv_get_code.R
+31b9f7beca5982a3b97c223e9bc8769d *tests/testthat/test-qenv_get_code.R
 52b519bd36b4da0f4e18d2b77e82d519 *tests/testthat/test-qenv_get_messages.R
 e8b41779154ab3a6b07834f702f9845c *tests/testthat/test-qenv_get_var.R
 4edee49c8f2eb9d51f56641f63aa01e0 *tests/testthat/test-qenv_get_warnings.R

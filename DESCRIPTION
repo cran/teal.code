@@ -1,8 +1,8 @@
 Type: Package
 Package: teal.code
 Title: Code Storage and Execution Class for 'teal' Applications
-Version: 0.6.0
-Date: 2025-01-24
+Version: 0.6.1
+Date: 2025-02-13
 Authors@R: c(
     person("Dawid", "Kaledkowski", , "dawid.kaledkowski@roche.com", role = c("aut", "cre")),
     person("Aleksander", "Chlebowski", , "aleksander.chlebowski@contractors.roche.com", role = "aut"),
@@ -44,7 +44,7 @@ Collate: 'qenv-c.R' 'qenv-class.R' 'qenv-errors.R' 'qenv-concat.R'
         'qenv-length.R' 'qenv-show.R' 'qenv-within.R'
         'teal.code-package.R' 'utils-get_code_dependency.R' 'utils.R'
 NeedsCompilation: no
-Packaged: 2025-01-27 19:00:16 UTC; unardid
+Packaged: 2025-02-14 01:12:45 UTC; unardid
 Author: Dawid Kaledkowski [aut, cre],
   Aleksander Chlebowski [aut],
   Marcin Kosinski [aut],
@@ -59,4 +59,4 @@ Author: Dawid Kaledkowski [aut, cre],
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Dawid Kaledkowski <dawid.kaledkowski@roche.com>
 Repository: CRAN
-Date/Publication: 2025-01-27 23:10:02 UTC
+Date/Publication: 2025-02-14 05:40:05 UTC
