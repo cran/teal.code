@@ -303,12 +303,36 @@ extract_occurrence <- function(pd) {
 
   after <- match(min(x$id[assign_cond]), sort(x$id[c(min(assign_cond), sym_cond)])) - 1
   ans <- append(x[sym_cond, "text"], "<-", after = max(1, after))
+  ans <- move_functions_after_arrow(ans, unique(x[sym_fc_cond, "text"]))
   roll <- in_parenthesis(pd)
   if (length(roll)) {
     c(setdiff(ans, roll), roll)
   } else {
     ans
   }
+}
+
+#' Moves function names to the right side of dependency graph
+#'
+#' Changes status of the function call from dependent to dependency if occurs in the lhs.
+#' Technically, it means to move function names after the dependency operator.
+#' For example, for `attributes(a) <- b` the dependency graph should look like `c("a", "<-", "b", "attributes")`.
+#'
+#' @param ans `character` vector of object names in dependency graph.
+#' @param functions `character` vector of function names.
+#'
+#' @return
+#' A character vector.
+#' @keywords internal
+#' @noRd
+move_functions_after_arrow <- function(ans, functions) {
+  arrow_pos <- which(ans == "<-")
+  if (length(arrow_pos) == 0) {
+    return(ans)
+  }
+  before_arrow <- setdiff(ans[1:arrow_pos], functions)
+  after_arrow <- ans[(arrow_pos + 1):length(ans)]
+  c(before_arrow, unique(c(intersect(ans[1:arrow_pos], functions), after_arrow)))
 }
 
 #' Extract side effects
@@ -340,15 +364,72 @@ extract_side_effects <- function(pd) {
 #' @keywords internal
 #' @noRd
 extract_dependency <- function(parsed_code) {
-  pd <- normalize_pd(utils::getParseData(parsed_code))
-  reordered_pd <- extract_calls(pd)
-  if (length(reordered_pd) > 0) {
-    # extract_calls is needed to reorder the pd so that assignment operator comes before symbol names
-    # extract_calls is needed also to substitute assignment operators into specific format with fix_arrows
-    # extract_calls is needed to omit empty calls that contain only one token `"';'"`
-    # This cleaning is needed as extract_occurrence assumes arrows are fixed, and order is different than in original pd
-    c(extract_side_effects(reordered_pd[[1]]), extract_occurrence(reordered_pd[[1]]))
+  full_pd <- normalize_pd(utils::getParseData(parsed_code))
+  reordered_full_pd <- extract_calls(full_pd)
+
+  # Early return on empty code
+  if (length(reordered_full_pd) == 0L) {
+    return(NULL)
   }
+
+  if (length(parsed_code) == 0L) {
+    return(extract_side_effects(reordered_full_pd[[1]]))
+  }
+  expr_ix <- lapply(parsed_code[[1]], class) == "{"
+
+  # Build queue of expressions to parse individually
+  queue <- list()
+  parsed_code_list <- if (all(!expr_ix)) {
+    list(parsed_code)
+  } else {
+    queue <- as.list(parsed_code[[1]][expr_ix])
+    new_list <- parsed_code[[1]]
+    new_list[expr_ix] <- NULL
+    list(parse(text = as.expression(new_list), keep.source = TRUE))
+  }
+
+  while (length(queue) > 0) {
+    current <- queue[[1]]
+    queue <- queue[-1]
+    if (identical(current[[1L]], as.name("{"))) {
+      queue <- append(queue, as.list(current)[-1L])
+    } else {
+      parsed_code_list[[length(parsed_code_list) + 1]] <- parse(text = as.expression(current), keep.source = TRUE)
+    }
+  }
+
+  parsed_occurences <- lapply(
+    parsed_code_list,
+    function(parsed_code) {
+      pd <- normalize_pd(utils::getParseData(parsed_code))
+      reordered_pd <- extract_calls(pd)
+      if (length(reordered_pd) > 0) {
+        # extract_calls is needed to reorder the pd so that assignment operator comes before symbol names
+        # extract_calls is needed also to substitute assignment operators into specific format with fix_arrows
+        # extract_calls is needed to omit empty calls that contain only one token `"';'"`
+        # This cleaning is needed as extract_occurrence assumes arrows are fixed, and order is different
+        # than in original pd
+        extract_occurrence(reordered_pd[[1]])
+      }
+    }
+  )
+
+  # Merge results together
+  result <- Reduce(
+    function(u, v) {
+      ix <- if ("<-" %in% v) min(which(v == "<-")) else 0
+      u$left_side <- c(u$left_side, v[seq_len(max(0, ix - 1))])
+      u$right_side <- c(
+        u$right_side,
+        if (ix == length(v)) character(0L) else v[seq(ix + 1, max(ix + 1, length(v)))]
+      )
+      u
+    },
+    init = list(left_side = character(0L), right_side = character(0L)),
+    x = parsed_occurences
+  )
+
+  c(extract_side_effects(reordered_full_pd[[1]]), result$left_side, "<-", result$right_side)
 }
 
 # graph_parser ----
@@ -464,6 +545,9 @@ get_call_breaks <- function(code) {
     }
   ))
   call_breaks <- call_breaks[-nrow(call_breaks), , drop = FALSE] # breaks in between needed only
+  if (nrow(call_breaks) == 0L) {
+    call_breaks <- matrix(numeric(0), ncol = 2)
+  }
   colnames(call_breaks) <- c("line", "col")
   call_breaks
 }

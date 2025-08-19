@@ -1,8 +1,8 @@
 Type: Package
 Package: teal.code
 Title: Code Storage and Execution Class for 'teal' Applications
-Version: 0.6.1
-Date: 2025-02-13
+Version: 0.7.0
+Date: 2025-08-12
 Authors@R: c(
     person("Dawid", "Kaledkowski", , "dawid.kaledkowski@roche.com", role = c("aut", "cre")),
     person("Aleksander", "Chlebowski", , "aleksander.chlebowski@contractors.roche.com", role = "aut"),
@@ -24,8 +24,8 @@ URL: https://insightsengineering.github.io/teal.code/,
         https://github.com/insightsengineering/teal.code
 BugReports: https://github.com/insightsengineering/teal.code/issues
 Depends: methods, R (>= 4.0)
-Imports: checkmate (>= 2.1.0), cli (>= 3.4.0), grDevices, lifecycle (>=
-        0.2.0), rlang (>= 1.1.0), stats, utils
+Imports: checkmate (>= 2.1.0), cli (>= 3.4.0), evaluate (>= 1.0.0),
+        grDevices, lifecycle (>= 0.2.0), rlang (>= 1.1.0), stats, utils
 Suggests: knitr (>= 1.42), rmarkdown (>= 2.23), shiny (>= 1.6.0),
         testthat (>= 3.1.8), withr (>= 2.0.0)
 VignetteBuilder: knitr, rmarkdown
@@ -40,11 +40,11 @@ RoxygenNote: 7.3.2
 Collate: 'qenv-c.R' 'qenv-class.R' 'qenv-errors.R' 'qenv-concat.R'
         'qenv-constructor.R' 'qenv-eval_code.R' 'qenv-extract.R'
         'qenv-get_code.R' 'qenv-get_env.R' 'qenv-get_messages.r'
-        'qenv-get_var.R' 'qenv-get_warnings.R' 'qenv-join.R'
-        'qenv-length.R' 'qenv-show.R' 'qenv-within.R'
+        'qenv-get_outputs.R' 'qenv-get_var.R' 'qenv-get_warnings.R'
+        'qenv-join.R' 'qenv-length.R' 'qenv-show.R' 'qenv-within.R'
         'teal.code-package.R' 'utils-get_code_dependency.R' 'utils.R'
 NeedsCompilation: no
-Packaged: 2025-02-14 01:12:45 UTC; unardid
+Packaged: 2025-08-18 16:22:51 UTC; unardid
 Author: Dawid Kaledkowski [aut, cre],
   Aleksander Chlebowski [aut],
   Marcin Kosinski [aut],
@@ -59,4 +59,4 @@ Author: Dawid Kaledkowski [aut, cre],
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Dawid Kaledkowski <dawid.kaledkowski@roche.com>
 Repository: CRAN
-Date/Publication: 2025-02-14 05:40:05 UTC
+Date/Publication: 2025-08-19 00:00:08 UTC

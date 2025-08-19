@@ -24,10 +24,13 @@ names(q1)
 ## -----------------------------------------------------------------------------
 q2 <- within(my_qenv, y <- x * 2)
 q2 <- within(q2, z <- y * 2)
+q2 <- within(q2, plot(z))
 print(q2)
 
 ## -----------------------------------------------------------------------------
 print(q2[["y"]])
+
+print(get_outputs(q2)[[1]])
 
 cat(get_code(q2))
 
@@ -96,13 +99,13 @@ server <- function(input, output, session) {
   # create a qenv containing the reproducible output
   output_q <- reactive({
     req(input$option)
-    eval_code(
+    within(
       data_q,
-      bquote(p <- hist(iris_data[, .(input$option)]))
+      p <- hist(iris_data[, .(input$option)])
     )
   })
 
-  # display output
+  # display plot output
   output$plot <- renderPlot(output_q()[["p"]])
   # display code
   output$rcode <- renderText(get_code(output_q()))

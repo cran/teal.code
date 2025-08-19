@@ -45,6 +45,11 @@ testthat::test_that("eval_code works with expression", {
   testthat::expect_equal(q1, list2env(list(a = 1, b = 2)))
 })
 
+testthat::test_that("eval_code ignores empty code", {
+  q <- qenv()
+  testthat::expect_identical(q, eval_code(q, ""))
+})
+
 testthat::test_that("eval_code preserves original formatting when `srcref` is present in the expression", {
   code <- "# comment
   a <- 1L"
@@ -77,12 +82,11 @@ testthat::test_that("eval_code works with quoted code block", {
   testthat::expect_equal(q1, list2env(list(a = 1, b = 2)))
 })
 
-testthat::test_that("eval_code fails with unquoted expression", {
-  b <- 3
-  testthat::expect_error(
-    eval_code(qenv(), a <- b),
-    "unable to find an inherited method for function .eval_code. for signature"
-  )
+testthat::test_that("eval_code fails with code not being language nor character", {
+  msg <- "eval_code accepts code being language or character"
+  testthat::expect_error(eval_code(qenv(), NULL), msg)
+  testthat::expect_error(eval_code(qenv(), 1), msg)
+  testthat::expect_error(eval_code(qenv(), list()), msg)
 })
 
 testthat::test_that("an error when calling eval_code returns a qenv.error object which has message and trace", {
@@ -132,41 +136,9 @@ testthat::test_that("comments fall into proper calls", {
   testthat::expect_identical(get_code(q), code)
 })
 
-testthat::test_that("comments alone are pasted to the next/following call element", {
-  code <- c("x <- 5", "# comment", "y <- 6")
-  q <- eval_code(qenv(), code)
-  testthat::expect_identical(
-    as.character(q@code)[2],
-    paste(code[2:3], collapse = "\n")
-  )
-  testthat::expect_identical(
-    get_code(q),
-    paste(code, collapse = "\n")
-  )
-})
-
-testthat::test_that("comments at the end of src are added to the previous call element", {
-  code <- c("x <- 5", "# comment")
-  q <- eval_code(qenv(), code)
-  testthat::expect_identical(
-    as.character(q@code),
-    paste(code[1:2], collapse = "\n")
-  )
-  testthat::expect_identical(
-    get_code(q),
-    paste(code, collapse = "\n")
-  )
-})
-
 testthat::test_that("comments from the same line are associated with it's call", {
   code <- c("x <- 5", " y <- 4 # comment", "z <- 5")
   q <- eval_code(qenv(), code)
-  testthat::expect_identical(as.character(q@code)[2], code[2])
-})
-
-testthat::test_that("alone comments at the end of the source are considered as continuation of the last call", {
-  code <- c("x <- 5\n", "y <- 10\n# comment")
-  q <- eval_code(eval_code(qenv(), code[1]), code[2])
   testthat::expect_identical(as.character(q@code)[2], code[2])
 })
 
@@ -183,7 +155,25 @@ testthat::test_that("comments passed alone to eval_code that contain @linksto ta
   )
 })
 
-testthat::test_that("Code executed with integer shorthand (1L) is the same as original", {
-  q <- within(qenv(), a <- 1L)
-  testthat::expect_identical(get_code(q), "a <- 1L")
+testthat::test_that("object printed (explicitly) is stored as string in the 'outputs' attribute of a code element", {
+  q <- eval_code(qenv(), "print('whatever')")
+  testthat::expect_identical(attr(q@code[[1]], "outputs")[[1]], '[1] "whatever"\n')
+})
+
+testthat::test_that("object printed (implicitly) is stored asis in the 'outputs' attribute of a code element", {
+  q <- eval_code(qenv(), "head(letters)")
+  testthat::expect_identical(attr(q@code[[1]], "outputs")[[1]], head(letters))
+})
+
+testthat::test_that("plot output is stored as recordedplot in the 'outputs' attribute of a code element", {
+  q <- eval_code(qenv(), "plot(1)")
+  testthat::expect_s3_class(attr(q@code[[1]], "outputs")[[1]], "recordedplot")
+})
+
+testthat::test_that("plot cannot modified previous plots when calls are seperate", {
+  q <- qenv()
+  q1 <- eval_code(q, expression(plot(1:10)))
+
+  q2 <- eval_code(q1, expression(title("A title")))
+  testthat::expect_s3_class(q2, "qenv.error")
 })

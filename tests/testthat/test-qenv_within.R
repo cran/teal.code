@@ -131,3 +131,26 @@ testthat::test_that("within run on qenv.error returns the qenv.error as is", {
 
   testthat::expect_identical(qe, qee)
 })
+
+testthat::describe("within run with `=`", {
+  testthat::it("single expression", {
+    q <- qenv()
+    q <- within(q, {
+      i = 1 # nolintr: assigment. styler: off.
+    })
+  })
+
+  testthat::it("multiple '=' expressions", {
+    q <- qenv()
+    q <- within(q, {
+      j = 2 # nolintr: assigment. styler: off.
+      i = 1 # nolintr: assigment. styler: off.
+    })
+    testthat::expect_equal(q$i, 1)
+  })
+})
+
+testthat::test_that("Code executed with integer shorthand (1L) is the same as original", {
+  q <- within(qenv(), a <- 1L)
+  testthat::expect_identical(get_code(q), "a <- 1L")
+})
