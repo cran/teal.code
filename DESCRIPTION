@@ -1,8 +1,8 @@
 Type: Package
 Package: teal.code
 Title: Code Storage and Execution Class for 'teal' Applications
-Version: 0.7.0
-Date: 2025-08-12
+Version: 0.7.1
+Date: 2026-01-19
 Authors@R: c(
     person("Dawid", "Kaledkowski", , "dawid.kaledkowski@roche.com", role = c("aut", "cre")),
     person("Aleksander", "Chlebowski", , "aleksander.chlebowski@contractors.roche.com", role = "aut"),
@@ -36,7 +36,7 @@ Config/Needs/verdepcheck: mllg/checkmate, r-lib/cli, r-lib/lifecycle,
 Config/Needs/website: insightsengineering/nesttemplate
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 'qenv-c.R' 'qenv-class.R' 'qenv-errors.R' 'qenv-concat.R'
         'qenv-constructor.R' 'qenv-eval_code.R' 'qenv-extract.R'
         'qenv-get_code.R' 'qenv-get_env.R' 'qenv-get_messages.r'
@@ -44,7 +44,7 @@ Collate: 'qenv-c.R' 'qenv-class.R' 'qenv-errors.R' 'qenv-concat.R'
         'qenv-join.R' 'qenv-length.R' 'qenv-show.R' 'qenv-within.R'
         'teal.code-package.R' 'utils-get_code_dependency.R' 'utils.R'
 NeedsCompilation: no
-Packaged: 2025-08-18 16:22:51 UTC; unardid
+Packaged: 2026-01-19 08:13:30 UTC; sanchosl
 Author: Dawid Kaledkowski [aut, cre],
   Aleksander Chlebowski [aut],
   Marcin Kosinski [aut],
@@ -59,4 +59,4 @@ Author: Dawid Kaledkowski [aut, cre],
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Dawid Kaledkowski <dawid.kaledkowski@roche.com>
 Repository: CRAN
-Date/Publication: 2025-08-19 00:00:08 UTC
+Date/Publication: 2026-01-20 09:00:02 UTC

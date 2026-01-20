@@ -115,3 +115,23 @@ if (interactive()) {
   shinyApp(ui, server)
 }
 
+## ----get_code-----------------------------------------------------------------
+q_reproducible <- qenv()
+q_reproducible <- within(q_reproducible, {
+  a <- 2
+  b <- 5
+  c <- a + b
+})
+cat(get_code(q_reproducible))
+cat(get_code(q_reproducible, names = "a"))
+cat(get_code(q_reproducible, names = "c"))
+
+## ----get_code_linked----------------------------------------------------------
+q_linked <- qenv()
+q_linked <- eval_code(q_reproducible, "
+  set.seed(2) # @linksto a
+  a <- runif(1)
+")
+cat(get_code(q_linked))
+cat(get_code(q_linked, names = "a"))
+

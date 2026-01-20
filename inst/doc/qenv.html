@@ -371,7 +371,7 @@ initial <code>qenv</code> object:</p>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># create a new qenv object</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>empty_qenv <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">print</span>(empty_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x11d4de178&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f8ca606f0&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt;</code></pre>
 </div>
 <div id="qenv-basic-usage" class="section level3">
@@ -382,7 +382,7 @@ output.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># evaluate code in qenv</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>my_qenv <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(empty_qenv, <span class="st">&quot;x &lt;- 2&quot;</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x10e91bd58&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f8f2975d8&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt; 
 ## Bindings:
 ## - x: [numeric]</code></pre>
@@ -391,7 +391,7 @@ output.</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># my_qenv still contains only x</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">print</span>(my_qenv)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x10e91bd58&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f8f2975d8&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt; 
 ## Bindings:
 ## - x: [numeric]</code></pre>
@@ -399,7 +399,7 @@ output.</p>
 <pre><code>## [1] &quot;x&quot;</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># q1 contains x, y and z</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">print</span>(q1)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x103a0a9a0&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f90c95a88&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt; 
 ## Bindings:
 ## - x: [numeric]
@@ -413,7 +413,7 @@ method.</p>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">within</span>(q2, z <span class="ot">&lt;-</span> y <span class="sc">*</span> <span class="dv">2</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">within</span>(q2, <span class="fu">plot</span>(z))</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">print</span>(q2)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x102603078&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f8ef8d530&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt; 
 ## Bindings:
 ## - x: [numeric]
@@ -429,7 +429,7 @@ functions are particularly useful for displaying them in a
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">print</span>(q2[[<span class="st">&quot;y&quot;</span>]])</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">get_outputs</span>(q2)[[<span class="dv">1</span>]])</span></code></pre></div>
-<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q2))</span></code></pre></div>
 <pre><code>## x &lt;- 2
 ## y &lt;- x * 2
@@ -494,7 +494,7 @@ both environments, along with the requisite code for reproduction:</p>
 <span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>join_q <span class="ot">&lt;-</span> <span class="fu">c</span>(x_q, y_q)</span>
 <span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a></span>
 <span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a><span class="fu">print</span>(join_q)</span></code></pre></div>
-<pre><code>## &lt;environment: 0x101f4ec78&gt; 🔒 
+<pre><code>## &lt;environment: 0x0000014f90269f10&gt; 🔒 
 ## Parent: &lt;environment: package:teal.code&gt; 
 ## Bindings:
 ## - x: [numeric]
@@ -569,6 +569,56 @@ the <code>error_option</code> in the example below to witness
 <span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
 <span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>  <span class="fu">shinyApp</span>(ui, server)</span>
 <span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>}</span></code></pre></div>
+<div id="reproducibility" class="section level3">
+<h3>Reproducibility</h3>
+<p>The code inside a <code>qenv</code> object can be retrieved using
+<code>get_code</code> function.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>q_reproducible <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>q_reproducible <span class="ot">&lt;-</span> <span class="fu">within</span>(q_reproducible, {</span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>  c <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>})</span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q_reproducible))</span></code></pre></div>
+<pre><code>## a &lt;- 2
+## b &lt;- 5
+## c &lt;- a + b</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q_reproducible, <span class="at">names =</span> <span class="st">&quot;a&quot;</span>))</span></code></pre></div>
+<pre><code>## a &lt;- 2</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q_reproducible, <span class="at">names =</span> <span class="st">&quot;c&quot;</span>))</span></code></pre></div>
+<pre><code>## a &lt;- 2
+## b &lt;- 5
+## c &lt;- a + b</code></pre>
+<p>As demonstrated, you can retrieve the code responsible for creating
+specific objects by passing the object’s name to the <code>names</code>
+argument in <code>get_code</code>. In scenarios where certain objects
+are <strong>affected by side effects</strong> (such as setting options
+or controlling random number generation) from previous calls, this
+dependency can be specified in the <code>qenv</code>. You achieve this
+by adding the comment <code># @linksto</code> followed by the name of
+the linked object.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>q_linked <span class="ot">&lt;-</span> <span class="fu">qenv</span>()</span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>q_linked <span class="ot">&lt;-</span> <span class="fu">eval_code</span>(q_reproducible, <span class="st">&quot;</span></span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a><span class="st">  set.seed(2) # @linksto a</span></span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a><span class="st">  a &lt;- runif(1)</span></span>
+<span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a><span class="st">&quot;</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q_linked))</span></code></pre></div>
+<pre><code>## a &lt;- 2
+## b &lt;- 5
+## c &lt;- a + b
+## 
+##   set.seed(2) # @linksto a
+##   a &lt;- runif(1)</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">get_code</span>(q_linked, <span class="at">names =</span> <span class="st">&quot;a&quot;</span>))</span></code></pre></div>
+<pre><code>## a &lt;- 2
+##   set.seed(2) # @linksto a
+##   a &lt;- runif(1)</code></pre>
+<p>Currently, object linking for reproducibility is only supported by
+the <code>eval_code</code> function. Since <code>within</code> uses an
+expression as input and ignores comments, its use is <strong>not
+recommended</strong> when side-effect functions are required for full
+reproducibility.</p>
+</div>
 </div>
 <div id="qenv-and-teal-applications" class="section level2">
 <h2><code>qenv</code> and <code>teal</code> applications</h2>
