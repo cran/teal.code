@@ -1,3 +1,11 @@
+# teal.code 0.7.2
+
+### Bug fixes
+
+* Fixed a problem parsing Chinese characters due to the encoding (#284).
+* Fixed get_code documentation (#247).
+* Update maintainer.
+
 # teal.code 0.7.1
 
 ### Bug fixes

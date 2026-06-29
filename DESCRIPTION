@@ -1,10 +1,10 @@
 Type: Package
 Package: teal.code
 Title: Code Storage and Execution Class for 'teal' Applications
-Version: 0.7.1
-Date: 2026-01-19
+Version: 0.7.2
+Date: 2026-06-26
 Authors@R: c(
-    person("Dawid", "Kaledkowski", , "dawid.kaledkowski@roche.com", role = c("aut", "cre")),
+    person("Dawid", "Kaledkowski", , "dawid.kaledkowski@roche.com", role = "aut"),
     person("Aleksander", "Chlebowski", , "aleksander.chlebowski@contractors.roche.com", role = "aut"),
     person("Marcin", "Kosinski", , "marcin.kosinski.mk1@roche.com", role = "aut"),
     person("Pawel", "Rucki", , "pawel.rucki@roche.com", role = "aut"),
@@ -14,7 +14,7 @@ Authors@R: c(
     person("Konrad", "Pagacz", , "konrad.pagacz@contractors.roche.com", role = "aut"),
     person("Junlue", "Zhao", , "zhaoj88@gene.com", role = "aut"),
     person("Chendi", "Liao", , "chendi.liao@roche.com", role = "rev"),
-    person("Dony", "Unardi", , "unardid@gene.com", role = "rev"),
+    person("Dony", "Unardi", , "unardid@gene.com", role = c("rev", "cre")),
     person("F. Hoffmann-La Roche AG", role = c("cph", "fnd"))
   )
 Description: Introduction of 'qenv' S4 class, that facilitates code
@@ -36,16 +36,16 @@ Config/Needs/verdepcheck: mllg/checkmate, r-lib/cli, r-lib/lifecycle,
 Config/Needs/website: insightsengineering/nesttemplate
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.3.3
 Collate: 'qenv-c.R' 'qenv-class.R' 'qenv-errors.R' 'qenv-concat.R'
         'qenv-constructor.R' 'qenv-eval_code.R' 'qenv-extract.R'
         'qenv-get_code.R' 'qenv-get_env.R' 'qenv-get_messages.r'
         'qenv-get_outputs.R' 'qenv-get_var.R' 'qenv-get_warnings.R'
         'qenv-join.R' 'qenv-length.R' 'qenv-show.R' 'qenv-within.R'
         'teal.code-package.R' 'utils-get_code_dependency.R' 'utils.R'
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-01-19 08:13:30 UTC; sanchosl
-Author: Dawid Kaledkowski [aut, cre],
+Packaged: 2026-06-28 21:41:43 UTC; unardid
+Author: Dawid Kaledkowski [aut],
   Aleksander Chlebowski [aut],
   Marcin Kosinski [aut],
   Pawel Rucki [aut],
@@ -55,8 +55,8 @@ Author: Dawid Kaledkowski [aut, cre],
   Konrad Pagacz [aut],
   Junlue Zhao [aut],
   Chendi Liao [rev],
-  Dony Unardi [rev],
+  Dony Unardi [rev, cre],
   F. Hoffmann-La Roche AG [cph, fnd]
-Maintainer: Dawid Kaledkowski <dawid.kaledkowski@roche.com>
+Maintainer: Dony Unardi <unardid@gene.com>
 Repository: CRAN
-Date/Publication: 2026-01-20 09:00:02 UTC
+Date/Publication: 2026-06-29 07:50:02 UTC
